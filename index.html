@@ -222,7 +222,7 @@ footer a{color:var(--copper)}
 .packet.addr text{fill:var(--ink)}
 .packet .flap{fill:none; stroke:rgba(255,255,255,.55); stroke-width:1.2}
 
-/* —— 三条总线观察栏 + 例 B 演示 —— */
+/* —— 三条总线观察栏 —— */
 .bus-monitor{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin:6px 2px 0; font-size:.86rem; line-height:1.35}
 .bus-monitor>div{border:2px solid var(--ink); border-radius:8px; padding:3px 8px; background:#fffaf0; min-width:0; overflow-wrap:anywhere}
 .bus-monitor b{display:block; font-size:.78rem}
@@ -231,10 +231,6 @@ footer a{color:var(--copper)}
 .bus-monitor>.bm-d{border-color:var(--copper)} .bm-d b{color:var(--copper)}
 .bus-monitor[data-signal="IDLE"]>div{background:rgba(255,250,240,.6); color:var(--muted)}
 .bus-monitor:not([data-signal="IDLE"])>.bm-c{background:#e3f4f2}
-.bus-demo{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:6px 2px 2px; font-weight:800; font-size:.9rem; color:var(--ctrl-ink)}
-.bus-demo button{border:2px solid var(--ctrl-ink); background:#e9f6f4; color:var(--ink); border-radius:8px; padding:4px 10px; min-height:44px; cursor:pointer; font-weight:700}
-.bus-demo button:hover{background:#fff}
-.bus-demo code{font:700 .85em var(--mono); color:var(--ctrl-ink)}
 
 @media (max-width:1100px){
   .stage{grid-template-columns:minmax(0,1fr)}
@@ -301,13 +297,6 @@ footer a{color:var(--copper)}
       <div class="bm-c"><b>控制总线 · 设备做什么</b><span id="bm-ctl">IDLE 空闲</span></div>
       <div class="bm-a"><b>地址总线 · 哪个信箱</b><span id="bm-addr">—</span></div>
       <div class="bm-d"><b>数据总线 · 送什么值</b><span id="bm-data">—</span></div>
-    </div>
-    <div class="bus-demo" role="group" aria-label="用例 B 演示读写时三条总线如何配合">
-      <span>用例 B 演示：</span>
-      <button type="button" data-bus-demo="IO_READ" data-testid="demo-IO_READ">读输入 <code>INP</code></button>
-      <button type="button" data-bus-demo="MEM_WRITE" data-testid="demo-MEM_WRITE">写内存 <code>STA 06</code></button>
-      <button type="button" data-bus-demo="MEM_READ" data-testid="demo-MEM_READ">读内存 <code>ADD 06</code></button>
-      <button type="button" data-bus-demo="IO_WRITE" data-testid="demo-IO_WRITE">写输出 <code>OUT</code></button>
     </div>
   </section>
 
@@ -1396,7 +1385,7 @@ function toBranch() {
   return atBranch(state);
 }
 
-/* 用例 B 演示三条总线：从头沿真实引擎推进到目标那次设备传输，再播放这一微步后停住 */
+/* 教师控制台：从头沿真实引擎推进到目标那次设备传输，再播放这一微步后停住 */
 function busDemo(sig) {
   if (!SIG[sig]) return false;
   setExample('B');
@@ -1510,7 +1499,6 @@ $('ex-B').addEventListener('click', () => setExample('B'));
 $('ex-C').addEventListener('click', () => setExample('C'));
 ['D', 'E', 'F'].forEach(k => $('ex-' + k).addEventListener('click', () => setExample(k)));
 $('btn-branch').addEventListener('click', toBranch);
-document.querySelectorAll('[data-bus-demo]').forEach(b => b.addEventListener('click', () => busDemo(b.dataset.busDemo)));
 $('preset-row').addEventListener('click', e => {
   const btn = e.target && e.target.closest ? e.target.closest('button[data-input]') : null;
   if (!btn) return;
